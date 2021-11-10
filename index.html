@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API Sandbox</title>
+</head>
+<body>
+     
+    <button id="getText">Get Text</button>
+    <button id="getUsers">Get JSON</button>
+    <button id="getPosts">Get API Data</button>
+    <hr>
+    <div id="output"></div>
+
+     <form action="" id="addPost">
+            <div>
+                <input type="text" id="title" placeholder="Title">
+            </div>
+
+            <div>
+                <textarea type="text" id="id" placeholder="The id"></textarea>
+            </div>
+
+     </form>
+
+     <script>
+  
+     document.getElementById('getText').addEventListener('click',getText);
+     document.getElementById('getUsers').addEventListener('click',getUsers);
+     document.getElementById('getPosts').addEventListener('click',getPosts);
+
+
+     function errorHandler(error)
+     {
+         console.log("The error is ",error);
+     }
+
+    function getText()
+    {
+       fetch('sample.txt') //url or file name.Fetch returns a promise
+        .then(res=>res.text())  // console.log(res.text()) in case of text file.  For json file it is res.json().
+        .then(data=>{
+            document.getElementById('output').innerText = data
+        })
+
+        .catch(errorHandler)
+    }
+
+   function getUsers()
+   {
+      fetch('users.json')
+       .then((res)=>res.json())
+       .then(data=>{
+           let output = `<h1>Users</h1>`
+           data.forEach(function(user){
+               output+=`
+                 <ul>
+                  <li>ID: ${user.id}</li>
+                  <li>Name:${user.name}</li>
+                  <li>Email:${user.email}</li>    
+                </ul>
+               
+               `;
+           });
+           document.getElementById('output').innerHTML = output;
+       })
+
+    }
+
+
+
+    function getPosts()
+   {
+      fetch('https://my-json-server.typicode.com/typicode/demo/posts')
+       .then((res)=>res.json())
+       .then(data=>{
+           let output = `<h1>Posts</h1>`
+           data.forEach(function(post){
+               output+=`
+                <div>
+                  <h3>${post.title}</h3>
+                  <p>${post.id}</p>
+                    
+                </div>
+
+               
+               `;
+           });
+           document.getElementById('output').innerHTML = output;
+       })
+
+    }
+
+
+   
+
+
+
+
+
+
+
+
+    // 200 status code means everything went okay that is the file is found
+     </script>
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
